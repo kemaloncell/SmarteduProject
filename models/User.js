@@ -19,7 +19,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function (next) {
-  const user = this; // hangi kullanıcı giriş yapıyorsa onu yakala daha sonra //hash ile şifreledik
+  const user = this; // hangi kullanıcı giriş yapıyorsa onu yakala daha sonra hash ile şifreledik
   bcrypt.hash(user.password, 10, (error, hash) => {
     user.password = hash; // sonra passwordü hash olarak kayıtediyoruz
     next();
