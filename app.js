@@ -8,9 +8,14 @@ const categoryRoute = require('./routes/CategoryRoute');
 const userRoute = require('./routes/UserRoute');
 const app = express();
 
-mongoose.connect('mongodb://localhost/smartedu-db').then(() => {
-  console.log('DB conntected Successfuly');
-});
+mongoose
+  .connect('mongodb://localhost/smartedu-db', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('DB conntected Successfuly');
+  });
 // Template engine
 app.set('view engine', 'ejs');
 
