@@ -10,13 +10,11 @@ exports.createCourse = async (req, res) => {
       category: req.body.category,
       user: req.session.userID, // hangi kullanıcı o an için login durumda ise onu yakaldık
     });
-
+    req.flash('success', `Course of ${course.name} has been created successfully`);
     res.status(201).redirect('/courses');
   } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      error,
-    });
+    req.flash('error', `Something Happend!`);
+    res.status(400).redirect('/courses');
   }
 };
 
@@ -99,6 +97,18 @@ exports.releaseCourse = async (req, res) => {
     await user.courses.pull({ _id: req.body.course_id }); //userin kurslar alanına yeni bir kurs yerleştirdik
     await user.save(); // işlemlerin sıra ile gitemesi için await kullandım ve kullanıcıyı kaydet
 
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+};
+exports.deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findOneAndRemove({ slug: req.params.slug });
+    req.flash('error', `Course of ${course.name} has been removed successfully`);
     res.status(200).redirect('/users/dashboard');
   } catch (error) {
     res.status(400).json({
