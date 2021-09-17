@@ -27,6 +27,7 @@ const CourseSchema = new Schema({
     ref: 'Category',
   },
   user: {
+    // bu kursu oluştıran user anlamında
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
